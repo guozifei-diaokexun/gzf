@@ -176,11 +176,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.el-row,
-.el-col,
 .home {
   height: 100%;
+  box-sizing: border-box;
 }
+.el-row,
+.el-col {
+  height: calc(100% - 39px);
+  box-sizing: border-box;
+}
+
+.el-row > .el-col {
+  height: 100%;
+}
+
 .top-button {
   display: flex;
   border-bottom: 1px solid #d6d6d6;
@@ -188,8 +197,11 @@ export default {
   box-shadow: 0px 8px #fcfcfc;
 }
 .components-draggable {
+  display: grid;
+  box-sizing:border-box;
   height: 100%;
   padding: 12px;
+  border: 1px dashed #409eff;
 }
 .components-item {
   float: left;
