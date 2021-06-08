@@ -16,7 +16,7 @@
         <RightAside />
       </el-col>
     </el-row> -->
-    <el-row>
+    <el-row class="main">
       <el-col :span="3" class="right-col">
         <draggable
           :list="leftList"
@@ -46,8 +46,8 @@
             v-for="(element, index) in exhibitionList"
             :key="element.index"
             @click="handleItemClick(index)"
-            class="components-item"
-            :class="element.maxWidth ? 'max-width' : ''"
+            class="components-item el-col"
+            :class="'el-col-' + element.width"
           >
             <i
               class="el-icon-delete-solid"
@@ -84,7 +84,6 @@
           </el-col>
         </el-form>
       </el-row>
-
       <div slot="footer">
         <el-button @click="codeDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="saveDownload">确定</el-button>
@@ -180,13 +179,13 @@ export default {
   height: 100%;
   box-sizing: border-box;
 }
-.el-row,
-.el-col {
+
+.main {
   height: calc(100% - 39px);
   box-sizing: border-box;
 }
 
-.el-row > .el-col {
+.main > .el-col {
   height: 100%;
 }
 
@@ -197,16 +196,21 @@ export default {
   box-shadow: 0px 8px #fcfcfc;
 }
 .components-draggable {
-  display: grid;
-  box-sizing:border-box;
+  box-sizing: border-box;
   height: 100%;
   padding: 12px;
   border: 1px dashed #409eff;
 }
 .components-item {
-  float: left;
+  position: relative;
   background: #f6f7ff;
   border-radius: 6px;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+}
+
+.components-item:hover .el-icon-delete-solid {
+  display: inline;
 }
 .components-body {
   line-height: 30px;
@@ -216,7 +220,10 @@ export default {
   width: 100%;
 }
 .el-icon-delete-solid {
-  float: right;
+  display: none;
+  position: absolute;
+  top: -7px;
+  right: 1px;
 }
 .components-right {
   float: left;
