@@ -31,7 +31,6 @@ export default {
 }
 .i-label {
   padding: 0.5em 0;
-  vertical-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
