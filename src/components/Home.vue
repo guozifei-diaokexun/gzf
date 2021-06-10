@@ -3,7 +3,7 @@
     <div class="top-button">
       <el-button @click="clearAll">清空画布</el-button>
       <el-button type="primary" @click="vueDownload">下载vue文件</el-button>
-      <el-button type="success" @click="createCode">生成代码</el-button>
+      <el-button type="success" @click="createCode">在线代码</el-button>
     </div>
     <!-- <el-row>
       <el-col :span="3">
