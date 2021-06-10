@@ -1,102 +1,147 @@
 <template>
   <el-aside width="350px" class="right" v-if="rightPanelData">
     <el-scrollbar>
-      <el-form label-position="left" label-width="100px">
-        <el-form-item v-if="rightPanelData.field !== undefined" label="字段名">
-          <el-input v-model="rightPanelData.field" placeholder="请输入字段名" />
+      <el-form label-position="left">
+        <el-form-item v-if="rightPanelData.field !== undefined">
+          <el-row>
+            <el-col :span="5">字段名:</el-col>
+            <el-col :span="16">
+              <el-input
+                v-model="rightPanelData.field"
+                placeholder="请输入字段名"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item v-if="rightPanelData.label" label="标题">
-          <el-input v-model="rightPanelData.label" placeholder="请输入标题" />
+        <el-form-item v-if="rightPanelData.label">
+          <el-row>
+            <el-col :span="5"> 标题：</el-col>
+
+            <el-col :span="16">
+              <el-input v-model="rightPanelData.label" placeholder="请输入标题"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item v-if="rightPanelData.value !== undefined" label="值">
-          <el-input v-model="rightPanelData.value" placeholder="请输入值" />
+        <el-form-item v-if="rightPanelData.value !== undefined">
+          <el-row>
+            <el-col :span="5">值：</el-col>
+
+            <el-col :span="16">
+              <el-input v-model="rightPanelData.value" placeholder="请输入值"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData.placeholder !== undefined"
-          label="占位符"
-        >
-          <el-input v-model="rightPanelData.placeholder" placeholder="占位符" />
+        <el-form-item v-if="rightPanelData.placeholder !== undefined">
+          <el-row>
+            <el-col :span="5">占位符：</el-col>
+
+            <el-col :span="16"
+              ><el-input
+                v-model="rightPanelData.placeholder"
+                placeholder="占位符"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item v-if="rightPanelData.disabled !== undefined" label="禁用">
-          <el-switch
-            v-model="rightPanelData.disabled"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData.disabled !== undefined">
+          <el-row>
+            <el-col :span="5">禁用：</el-col>
+            <el-col :span="16">
+              <el-switch
+                v-model="rightPanelData.disabled"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData.clearable !== undefined"
-          label="清空"
-        >
-          <el-switch
-            v-model="rightPanelData.clearable"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData.clearable !== undefined">
+          <el-row>
+            <el-col :span="5"> 清空：</el-col>
+            <el-col :span="16">
+              <el-switch
+                v-model="rightPanelData.clearable"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData.filterable !== undefined"
-          label="搜索过滤"
-        >
-          <el-switch
-            v-model="rightPanelData.filterable"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData.filterable !== undefined">
+          <el-row>
+            <el-col :span="5"> 搜索过滤：</el-col>
+            <el-col :span="16">
+              <el-switch
+                v-model="rightPanelData.filterable"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item v-if="rightPanelData.multiple !== undefined" label="多选">
-          <el-switch
-            v-model="rightPanelData.multiple"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData.multiple !== undefined">
+          <el-row>
+            <el-col :span="5"> 多选：</el-col>
+            <el-col :span="16"
+              ><el-switch
+                v-model="rightPanelData.multiple"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item v-if="rightPanelData.step !== undefined" label="步长">
-          <el-input-number v-model="rightPanelData.step" placeholder="步数" />
+        <el-form-item v-if="rightPanelData.step !== undefined" label="">
+          <el-row>
+            <el-col :span="5"> 步长：</el-col>
+            <el-col :span="16"
+              ><el-input-number
+                v-model="rightPanelData.step"
+                placeholder="步数"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData.precision !== undefined"
-          label="精度"
-        >
-          <el-input-number
-            v-model="rightPanelData.precision"
-            :min="0"
-            placeholder="精度"
-          />
+        <el-form-item v-if="rightPanelData.precision !== undefined">
+          <el-row>
+            <el-col :span="5">精度:</el-col>
+            <el-col :span="16">
+              <el-input-number
+                v-model="rightPanelData.precision"
+                :min="0"
+                placeholder="精度"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData['step-strictly'] !== undefined"
-          label="严格步数"
-        >
-          <el-switch
-            v-model="rightPanelData['step-strictly']"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData['step-strictly'] !== undefined">
+          <el-row>
+            <el-col :span="5">严格步数：</el-col>
+            <el-col :span="16"
+              ><el-switch
+                v-model="rightPanelData['step-strictly']"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData['controls-position'] !== undefined"
-          label="加减按钮位置"
-        >
-          <el-switch
-            v-model="rightPanelData['controls-position']"
-            active-value="right"
-            inactive-value="''"
-            inactive-text="标准"
-            active-text="右侧"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData['controls-position'] !== undefined">
+          <el-row>
+            <el-col :span="5"> 加减按钮位置：</el-col>
+            <el-col :span="16">
+              <el-switch
+                v-model="rightPanelData['controls-position']"
+                active-value="right"
+                inactive-value="''"
+                inactive-text="标准"
+                active-text="右侧"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item
-          v-if="rightPanelData.isAutosize !== undefined"
-          label="自适应文本"
-        >
-          <el-switch
-            v-model="rightPanelData.isAutosize"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
+        <el-form-item v-if="rightPanelData.isAutosize !== undefined">
+          <el-row>
+            <el-col :span="5">自适应文本</el-col>
+            <el-col :span="16">
+              <el-switch
+                v-model="rightPanelData.isAutosize"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+            /></el-col>
+          </el-row>
         </el-form-item>
         <el-form-item
           v-if="
@@ -236,76 +281,32 @@
             rightPanelData.height != undefined ||
             rightPanelData.magin != undefined
           "
-          label="样式"
         >
           <el-row>
-            <el-col :span="4">
-              <span>宽度</span>
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                v-model="width"
-                @change="rightPanelData.width = 'width:' + width + 'px;'"
-              />
-            </el-col>
-            <el-col :span="4">
-              <span>高度</span>
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                v-model="height"
-                @change="rightPanelData.height = 'height:' + height + 'px;'"
-              />
-            </el-col>
+            <el-col :span="5"> 宽度：</el-col>
+            <el-col :span="16">
+              <el-slider
+                v-model="rightPanelData.width"
+                :step="1"
+                :min="1"
+                :max="24"
+              >
+              </el-slider
+            ></el-col>
           </el-row>
-
           <el-row>
-            <el-col :span="4">
-              <span>向上</span>
-            </el-col>
-            <el-col :span="7">
-              <el-input v-model="styleData.top" @change="styleCalculation()" />
-            </el-col>
-            <el-col :span="4">
-              <span>向下</span>
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                v-model="styleData.bottom"
-                @change="styleCalculation()"
-              />
-            </el-col>
-          </el-row>
-
-          <el-row>
-            <el-col :span="4">
-              <span>向左</span>
-            </el-col>
-            <el-col :span="7">
-              <el-input v-model="styleData.left" @change="styleCalculation()" />
-            </el-col>
-            <el-col :span="4">
-              <span>向右</span>
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                v-model="styleData.right"
-                @change="styleCalculation()"
-              />
-            </el-col>
+            <el-col :span="5"> 标签宽：</el-col>
+            <el-col :span="16">
+              <el-slider
+                v-model="rightPanelData.labelwidth"
+                :step="1"
+                :min="1"
+                :max="23"
+              >
+              </el-slider
+            ></el-col>
           </el-row>
         </el-form-item>
-
-        <!-- <el-form-item
-          v-if="rightPanelData.isRequired !== undefined"
-          label="必填"
-        >
-          <el-switch
-            v-model="rightPanelData.isRequired"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          />
-        </el-form-item> -->
         <el-form-item v-if="rightPanelData.isRequired" label="必填提示信息">
           <el-input v-model="rightPanelData.requiredMsg" />
         </el-form-item>
@@ -495,9 +496,8 @@ export default {
     additionalLableAnalysis() {
       if (this.rightPanelData.additionalLableStr) {
         try {
-          this.rightPanelData.additionalLable = this.rightPanelData.additionalLableStr.split(
-            ","
-          );
+          this.rightPanelData.additionalLable =
+            this.rightPanelData.additionalLableStr.split(",");
           return;
         } catch (er) {
           this.$message.success("格式有误");
@@ -542,11 +542,12 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .right {
-  width: 350px;
+  overflow: auto;
   padding: 10px;
+  box-sizing: border-box;
+  height: 100%;
 }
 .el-form-item {
   margin-bottom: 10px;

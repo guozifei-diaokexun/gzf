@@ -5,7 +5,7 @@
         {{ propsData.label }}
       </span>
     </div>
-    <div class="el-col" :class="'el-col-' + propsData.width">
+    <div class="el-col" :class="'el-col-' + (24 - propsData.labelwidth)">
       <el-input v-bind="propsData" v-model="propsData.value" />
     </div>
   </div>

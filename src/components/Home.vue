@@ -147,6 +147,7 @@ export default {
     cloneComponent(origin) {
       let clone = deepClone(origin);
       this.exhibitionList.push(clone);
+      console.log(this.exhibitionList);
     },
     //生成vue文件下载弹框
     vueDownload() {
