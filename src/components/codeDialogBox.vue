@@ -165,7 +165,7 @@ export default {
   width: 100%;
 }
 .demo-split-pane {
-  padding: 10px;
+  padding: 5px;
   float: left;
   height: 100%;
   width: 49%;
