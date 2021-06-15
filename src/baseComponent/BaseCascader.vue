@@ -1,31 +1,36 @@
 <template>
-  <div class="number-main">
+  <div class="cascader-main">
     <span
-      v-if="propsData.label"
+      v-if="!isDialog && propsData.label"
       :style="'width:' + propsData.labelWidth + 'px'"
     >
       {{ propsData.label }}
     </span>
-    <el-input-number
+    <el-cascader
       v-model="propsData.value"
-      v-bind="propsData"
-    ></el-input-number>
+      :show-all-levels="false"
+      :options="propsData.cascaderData"
+      :props="{ expandTrigger: 'hover' }"
+    ></el-cascader>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BaseInput",
+  name: "BaseCascader",
   computed: {
     propsData() {
       return this.$attrs.propValues;
+    },
+    isDialog() {
+      return this.$attrs.isDialog;
     },
   },
 };
 </script>
 
 <style scoped>
-.number-main {
+.cascader-main {
   display: flex;
 }
 span {

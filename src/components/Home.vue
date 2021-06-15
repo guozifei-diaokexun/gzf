@@ -2,41 +2,61 @@
   <div class="home">
     <div class="top-button">
       <el-button @click="clearAll">清空画布</el-button>
-      <el-button type="primary" @click="vueDownload">下载vue文件</el-button>
-      <el-button type="success" @click="createCode">在线代码</el-button>
+      <el-button type="primary" :disabled="isPage" @click="vueDownload">
+        下载vue文件
+      </el-button>
+      <el-button type="success" :disabled="isPage" @click="createCode">
+        在线运行
+      </el-button>
+      <el-button type="success" :disabled="!isPage" @click="saveDialog">
+        保存弹框
+      </el-button>
+      <el-switch
+        class="switch"
+        v-model="isPage"
+        @change="switchChange"
+        active-text="编辑弹框"
+        inactive-text="编辑页面"
+      ></el-switch>
+      <el-select
+        :disabled="!isPage"
+        v-model="template"
+        @change="templateChange"
+        placeholder="请选择"
+        style="margin-left: 10px"
+      >
+        <el-option
+          v-for="(item, index) in dialogTemplateList"
+          :key="item.index"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
     </div>
-    <!-- <el-row>
-      <el-col :span="3">
-        <LeftAside />
-      </el-col>
-      <el-col :span="16" style="overflow-x: initial">
-        <CenterContainer />
-      </el-col>
-      <el-col :span="4">
-        <RightAside />
-      </el-col>
-    </el-row> -->
-    <el-row class="main">
-      <el-col :span="3" class="right-col">
-        <draggable
-          :list="leftList"
-          :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
-          :clone="cloneComponent"
-          :sort="false"
-        >
-          <div
-            v-for="(element, index) in leftList"
-            :key="index"
-            class="components-right"
+    <el-row>
+      <div>
+        <el-col :span="4" class="right-col">
+          <draggable
+            :list="leftList"
+            :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
+            :clone="cloneComponent"
+            :sort="false"
           >
-            <div class="components-body">
-              <i :class="element.componentIcon" />
-              {{ element.componentName }}
+            <div
+              v-if="isPage ? (isFrom ? isFrom == element.isFrom : true) : true"
+              v-for="(element, index) in leftList"
+              :key="index"
+              class="components-right"
+            >
+              <div class="components-body">
+                <i :class="element.componentIcon" />
+                {{ element.componentName }}
+              </div>
             </div>
-          </div>
-        </draggable>
-      </el-col>
-      <el-col :span="16">
+          </draggable>
+        </el-col>
+      </div>
+      <el-col :span="14">
         <draggable
           class="components-draggable"
           :list="exhibitionList"
@@ -45,21 +65,62 @@
           <div
             v-for="(element, index) in exhibitionList"
             :key="element.index"
-            @click="handleItemClick(index)"
-            class="components-item el-col"
-            :class="'el-col-' + element.width"
+            @click.capture="handleItemClick(index)"
+            class="el-col components-item"
+            :style="element.magin + 'float:' + element.float"
+            :class="'el-col-' + element.span"
           >
-            <i
-              class="el-icon-delete-solid"
-              :style="element.magin"
-              @click="deleteItem(index)"
-            ></i>
+            <i class="el-icon-delete-solid" @click.stop="deleteItem(index)"></i>
             <component :is="element.component" :propValues="element" />
           </div>
         </draggable>
       </el-col>
-      <el-col :span="5">
-        <RightAside />
+
+      <!-- <el-col :span="14" v-if="isPage">
+        <el-form
+          ref="elForm"
+          :model="formData"
+          :rules="rules"
+          size="medium"
+          :label-width="labelWidth + 'px'"
+          label-position="left"
+        >
+          <draggable
+            class="components-draggable"
+            :list="dialogPageList"
+            :group="{ name: 'componentsGroup' }"
+          >
+            <div
+              class="el-col components-item"
+              :class="'el-col-' + element.span"
+              @click="handleItemClick(index)"
+              v-for="(element, index) in dialogPageList"
+              :key="element.index"
+            >
+              <el-form-item :label="element.label" :prop="element.field">
+                <i
+                  class="el-icon-delete-solid"
+                  :style="element.magin"
+                  @click="deleteItem(index)"
+                ></i>
+                <component
+                  :is="element.component"
+                  :propValues="element"
+                  :isDialog="isPage"
+                />
+              </el-form-item>
+            </div>
+          </draggable>
+        </el-form>
+      </el-col> -->
+
+      <el-col :span="6" class="right-boder">
+        <RightAside
+          :labelWidth.sync="labelWidth"
+          :isDialog.sync="isPage"
+          :dialogTemplateList="dialogTemplateList"
+          :isFrom.sync="isFrom"
+        />
       </el-col>
     </el-row>
 
@@ -84,8 +145,9 @@
           </el-col>
         </el-form>
       </el-row>
+
       <div slot="footer">
-        <el-button @click="codeDialogVisible = false">取消</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="saveDownload">确定</el-button>
       </div>
     </el-dialog>
@@ -94,8 +156,6 @@
 
 <script>
 import { mapState } from "vuex";
-import LeftAside from "./LeftAside";
-import CenterContainer from "./CenterContainer";
 import RightAside from "./RightAside";
 import { finalRenderToCode } from "@/utils/generateToCode";
 import codeDialogBox from "./codeDialogBox";
@@ -106,8 +166,6 @@ import { deepClone } from "@/utils/index";
 
 export default {
   components: {
-    LeftAside,
-    CenterContainer,
     RightAside,
     codeDialogBox,
     draggable,
@@ -121,7 +179,29 @@ export default {
       exhibitionList: [],
       dialogVisible: false,
       fileName: "",
+      isPage: false,
+      formData: {},
+      deepCloneData: [],
+      labelWidth: 90,
+      dialogTemplateList: [],
+      template: "",
+      storage: window.localStorage,
+      isFrom: true,
+      i: 0,
     };
+  },
+  watch: {
+    labelWidth: {
+      handler(val) {
+        this.exhibitionList.forEach((item) => {
+          item.labelWidth = val;
+        });
+      },
+      immediate: true,
+    },
+  },
+  beforeRouteLeave() {
+    this.storage.clear();
   },
   computed: {
     ...mapState({
@@ -131,23 +211,54 @@ export default {
   methods: {
     //清空画布
     clearAll() {
-      this.$store.dispatch("clearCanvasData");
-      this.exhibitionList = [];
-      this.$message.success("清空成功！");
+      this.$confirm("确认要清空吗, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.exhibitionList = [];
+        this.$store.dispatch("setRightPanelData", {});
+        this.$message.success("清空成功！");
+      });
     },
     //点击事件唤醒右侧表单
     handleItemClick(index) {
       this.$store.dispatch("setRightPanelData", this.exhibitionList[index]);
     },
+    //开启弹框编辑模式
+    switchChange() {
+      this.$store.dispatch("setRightPanelData", {});
+      if (this.isPage) {
+        this.deepCloneData = deepClone(this.exhibitionList);
+        this.exhibitionList = [];
+      } else {
+        this.exhibitionList = this.deepCloneData;
+      }
+    },
     //删除元素
     deleteItem(index) {
-      this.exhibitionList.splice(index);
+      this.exhibitionList.splice(index, 1);
+      this.$store.dispatch("setRightPanelData", {});
     },
     //深克隆拖拽元素
     cloneComponent(origin) {
-      let clone = deepClone(origin);
-      this.exhibitionList.push(clone);
-      console.log(this.exhibitionList);
+      let data = deepClone(origin);
+      data.field = data.field + this.i++;
+      this.exhibitionList.push(data);
+    },
+    //手动填写字段名称检核
+    reviewName(name) {
+      if (this.exhibitionList.length <= 0) {
+        return true;
+      }
+      let list = this.exhibitionList.filter((item) => {
+        return item.field == name;
+      });
+      if (list.length > 1) {
+        this.$message.warning("字段重复");
+        return false;
+      }
+      return true;
     },
     //生成vue文件下载弹框
     vueDownload() {
@@ -165,6 +276,39 @@ export default {
       saveAs(blob, this.fileName);
       this.codeDialogVisible = false;
     },
+    //保存弹框模板
+    saveDialog() {
+      this.$prompt("请输入模板名称", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputValidator(value) {
+          if (!value) {
+            return false;
+          }
+        },
+        inputErrorMessage: "请输入模板名称",
+      }).then(({ value }) => {
+        var storage = window.localStorage;
+        let template = {
+          formData: "formData" + this.i++,
+          isFrom: this.isFrom,
+          value: this.exhibitionList,
+          labelWidth: this.labelWidth,
+        };
+        this.dialogTemplateList.push({
+          lable: value,
+          value: value,
+        });
+        storage.setItem(value, JSON.stringify(template));
+        this.exhibitionList = [];
+      });
+    },
+    //选择弹框模板进行编辑
+    templateChange() {
+      var storage = window.localStorage;
+      let data = storage.getItem(this.template);
+      this.exhibitionList = JSON.parse(data).value;
+    },
     //生成预览代码
     createCode() {
       this.resultCode = finalRenderToCode(this.exhibitionList);
@@ -174,7 +318,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .home {
   height: 100%;
@@ -196,15 +339,19 @@ export default {
   padding: 0 0 8px 0;
   box-shadow: 0px 8px #fcfcfc;
 }
+.top-button .switch {
+  margin: 10px 0 0 8px;
+}
 .components-draggable {
-  box-sizing: border-box;
   height: 100%;
   padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
   border: 1px dashed #409eff;
 }
 .components-item {
   position: relative;
-  background: #f6f7ff;
+  background: #72b1edf0;
   border-radius: 6px;
   box-sizing: border-box;
   padding: 0.5em 1em;
@@ -212,19 +359,18 @@ export default {
 
 .components-item:hover .el-icon-delete-solid {
   display: inline;
+  color: red;
 }
 .components-body {
   line-height: 30px;
   border: 1px solid sandybrown;
 }
-.max-width {
-  width: 100%;
-}
 .el-icon-delete-solid {
   display: none;
   position: absolute;
-  top: -7px;
-  right: 1px;
+  top: 0px;
+  right: 0px;
+  z-index: 10;
 }
 .components-right {
   float: left;
@@ -239,8 +385,5 @@ export default {
   cursor: move;
   border: 1px dashed #f6f7ff;
   border-radius: 3px;
-}
-.right-col {
-  padding: 8px;
 }
 </style>

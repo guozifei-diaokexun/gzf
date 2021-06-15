@@ -1,17 +1,12 @@
 <template>
-  <div
-    class="pagination-main"
-    :style="propsData.magin + 'float:' + propsData.float"
-  >
-    <el-pagination
-      :style="propsData.style"
-      :current-page="propsData.pageNum"
-      :page-sizes="[10, 20, 30, 40, 50]"
-      :page-size="propsData.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="propsData.total"
-    ></el-pagination>
-  </div>
+  <el-pagination
+    :style="'float:' + propsData.float"
+    :current-page="propsData.pageNum"
+    :page-sizes="[10, 20, 30, 40, 50]"
+    :page-size="propsData.pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="propsData.total"
+  ></el-pagination>
 </template>
 
 <script>
@@ -30,7 +25,7 @@ export default {
   display: flex;
 }
 span {
-  margin-top: 10px;
+  line-height: 36px;
   width: 90px;
 }
 </style>

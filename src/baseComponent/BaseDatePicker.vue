@@ -1,13 +1,12 @@
 <template>
-  <div
-    class="date-picker-main"
-    :style="propsData.magin + 'float:' + propsData.float"
-  >
-    <span v-if="propsData.label">
+  <div class="date-picker-main">
+    <span
+      v-if="propsData.label"
+      :style="'width:' + propsData.labelWidth + 'px'"
+    >
       {{ propsData.label }}
     </span>
     <el-date-picker
-      :style="propsData.width + propsData.height"
       v-model="propsData.value"
       :type="propsData.type"
       value-format="yyyy-MM-dd HH:mm:ss"
@@ -32,7 +31,7 @@ export default {
   display: flex;
 }
 span {
-  margin-top: 10px;
+  line-height: 36px;
   width: 90px;
 }
 </style>

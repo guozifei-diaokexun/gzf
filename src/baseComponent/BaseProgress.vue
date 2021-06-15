@@ -1,21 +1,21 @@
 <template>
-  <div class="number-main">
+  <div class="progress-main">
     <span
       v-if="propsData.label"
       :style="'width:' + propsData.labelWidth + 'px'"
     >
       {{ propsData.label }}
     </span>
-    <el-input-number
-      v-model="propsData.value"
-      v-bind="propsData"
-    ></el-input-number>
+    <el-progress
+      style="width: 100%"
+      :percentage="propsData.value"
+    ></el-progress>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BaseInput",
+  name: "BaseProgress",
   computed: {
     propsData() {
       return this.$attrs.propValues;
@@ -25,8 +25,9 @@ export default {
 </script>
 
 <style scoped>
-.number-main {
+.progress-main {
   display: flex;
+  width: 100%;
 }
 span {
   line-height: 36px;

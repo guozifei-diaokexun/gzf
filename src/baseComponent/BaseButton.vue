@@ -1,6 +1,5 @@
 <template>
   <el-button
-    :style="propsData.magin + 'float:' + propsData.float"
     v-bind="propsData"
     :type="propsData.type ? propsData.type : 'primary'"
   >
@@ -10,7 +9,7 @@
 
 <script>
 export default {
-  name: "BaseButton.vue",
+  name: "BaseButton",
   computed: {
     propsData() {
       return this.$attrs.propValues;
@@ -18,6 +17,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

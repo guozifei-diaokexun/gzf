@@ -1,15 +1,18 @@
 <template>
-  <div
-    class="select-main"
-    :style="propsData.magin + 'float:' + propsData.float"
-  >
-    <span v-if="propsData.label">{{ propsData.label }}</span>
+  <div class="select-main">
+    <span
+      v-if="propsData.label"
+      :style="'width:' + propsData.labelWidth + 'px'"
+    >
+      {{ propsData.label }}
+    </span>
     <el-select
       v-model="propsData.value"
-      v-bind="propsData"
+      :filterable="propsData.filterable"
+      :clearable="propsData.clearable"
+      :multiple="propsData.multiple"
+      :multiple-limit="propsData['multiple-limit']"
       placeholder="请选择"
-      :prop="propsData.field"
-      :style="propsData.width + propsData.height"
     >
       <el-option
         v-for="item in propsData.selectOptions"
@@ -38,7 +41,7 @@ export default {
   display: flex;
 }
 span {
-  margin-top: 10px;
+  line-height: 36px;
   width: 90px;
 }
 </style>

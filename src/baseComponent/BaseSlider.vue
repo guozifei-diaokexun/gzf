@@ -1,21 +1,23 @@
 <template>
-  <div class="number-main">
+  <div class="slider-main">
     <span
       v-if="propsData.label"
       :style="'width:' + propsData.labelWidth + 'px'"
     >
       {{ propsData.label }}
     </span>
-    <el-input-number
+    <el-slider
+      style="width: 100%"
       v-model="propsData.value"
-      v-bind="propsData"
-    ></el-input-number>
+      :min="propsData.minValue"
+      :max="propsData.maxValue"
+    ></el-slider>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BaseInput",
+  name: "BaseSlider",
   computed: {
     propsData() {
       return this.$attrs.propValues;
@@ -25,8 +27,9 @@ export default {
 </script>
 
 <style scoped>
-.number-main {
+.slider-main {
   display: flex;
+  width: 100%;
 }
 span {
   line-height: 36px;

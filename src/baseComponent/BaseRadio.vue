@@ -1,21 +1,25 @@
 <template>
-  <div class="number-main">
+  <div class="radio-main">
     <span
       v-if="propsData.label"
       :style="'width:' + propsData.labelWidth + 'px'"
     >
       {{ propsData.label }}
     </span>
-    <el-input-number
+    <el-radio
       v-model="propsData.value"
-      v-bind="propsData"
-    ></el-input-number>
+      :label="item.value"
+      v-for="(item, index) in propsData.selectOptions"
+      :key="index"
+    >
+      {{ item.label }}
+    </el-radio>
   </div>
 </template>
 
 <script>
 export default {
-  name: "BaseInput",
+  name: "BaseRadio",
   computed: {
     propsData() {
       return this.$attrs.propValues;
@@ -25,11 +29,8 @@ export default {
 </script>
 
 <style scoped>
-.number-main {
+.radio-main {
   display: flex;
-}
-span {
-  line-height: 36px;
-  width: 90px;
+  line-height: 30px;
 }
 </style>

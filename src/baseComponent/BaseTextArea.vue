@@ -1,14 +1,13 @@
 <template>
-  <div
-    class="textarea-main"
-    :style="propsData.magin + 'float:' + propsData.float"
-  >
-    <span v-if="propsData.label" :style="propsData.style">
+  <div class="textarea-main">
+    <span
+      v-if="propsData.label"
+      :style="'width:' + propsData.labelWidth + 'px'"
+    >
       {{ propsData.label }}
     </span>
     <el-input
       type="textarea"
-      :style="propsData.width + propsData.height"
       v-bind="propsData"
       v-model="propsData.value"
       :autosize="{ minRows: propsData.minRows, maxRows: propsData.maxRows }"
@@ -32,7 +31,7 @@ export default {
   display: flex;
 }
 span {
-  margin-top: 10px;
+  line-height: 36px;
   width: 90px;
 }
 </style>

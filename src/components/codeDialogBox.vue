@@ -130,6 +130,7 @@ export default {
   },
   methods: {
     copyhandle(event) {
+      this.$message.success("复制成功");
       clip(this.code, event);
     },
     run() {
