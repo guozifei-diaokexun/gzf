@@ -1,6 +1,5 @@
 <template>
   <el-aside
-    width="320px"
     class="right"
     v-if="JSON.stringify(this.rightPanelData) != '{}'"
   >
@@ -499,7 +498,6 @@ export default {
 
 <style scoped>
 .right {
-  width: 350px;
   padding: 10px;
 }
 .el-form-item {

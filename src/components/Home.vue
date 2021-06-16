@@ -33,30 +33,28 @@
         ></el-option>
       </el-select>
     </div>
-    <el-row>
-      <div>
-        <el-col :span="4" class="right-col">
-          <draggable
-            :list="leftList"
-            :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
-            :clone="cloneComponent"
-            :sort="false"
+    <div class="wrapper">
+      <el-col :span="4" class="right-col">
+        <draggable
+          :list="leftList"
+          :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
+          :clone="cloneComponent"
+          :sort="false"
+        >
+          <div
+            v-if="isPage ? (isFrom ? isFrom == element.isFrom : true) : true"
+            v-for="(element, index) in leftList"
+            :key="index"
+            class="components-right"
           >
-            <div
-              v-if="isPage ? (isFrom ? isFrom == element.isFrom : true) : true"
-              v-for="(element, index) in leftList"
-              :key="index"
-              class="components-right"
-            >
-              <div class="components-body">
-                <i :class="element.componentIcon" />
-                {{ element.componentName }}
-              </div>
+            <div class="components-body">
+              <i :class="element.componentIcon" />
+              {{ element.componentName }}
             </div>
-          </draggable>
-        </el-col>
-      </div>
-      <el-col :span="14">
+          </div>
+        </draggable>
+      </el-col>
+      <el-col :span="14" class="drag-wrap">
         <draggable
           class="components-draggable"
           :list="exhibitionList"
@@ -122,8 +120,7 @@
           :isFrom.sync="isFrom"
         />
       </el-col>
-    </el-row>
-
+    </div>
     <!--代码显示的按钮-->
     <code-dialog-box
       :codeDialogVisible.sync="codeDialogVisible"
@@ -325,7 +322,7 @@ export default {
 }
 
 .main {
-  height: calc(100% - 39px);
+  height: calc(100% - 50px);
   box-sizing: border-box;
 }
 
@@ -344,17 +341,20 @@ export default {
 }
 .components-draggable {
   height: 100%;
-  padding: 12px;
-  display: flex;
-  flex-wrap: wrap;
   border: 1px dashed #409eff;
 }
 .components-item {
   position: relative;
-  background: #72b1edf0;
+  background: transparent;
   border-radius: 6px;
   box-sizing: border-box;
   padding: 0.5em 1em;
+}
+.wrapper {
+  height: calc(100% - 50px);
+}
+.drag-wrap {
+  height: 100%;
 }
 
 .components-item:hover .el-icon-delete-solid {
